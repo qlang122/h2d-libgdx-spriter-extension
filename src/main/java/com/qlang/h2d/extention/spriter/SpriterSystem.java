@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 
-import games.rednblack.editor.renderer.components.SpineDataComponent;
+import games.rednblack.editor.renderer.components.SpriterDataComponent;
 
 /**
  * @author Created by qlang on 5/27/2021.
@@ -15,7 +15,7 @@ public class SpriterSystem extends IteratingSystem {
     private ComponentMapper<SpriterObjectComponent> spineObjectComponentMapper = ComponentMapper.getFor(SpriterObjectComponent.class);
 
     public SpriterSystem() {
-        super(Family.all(SpineDataComponent.class, SpriterObjectComponent.class).get());
+        super(Family.all(SpriterDataComponent.class, SpriterObjectComponent.class).get());
     }
 
     @Override

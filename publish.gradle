@@ -1,7 +1,7 @@
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-group = 'com.github.qlang122'
+group = 'com.github.qlang'
 version = '0.0.7'
 ext.artifact = 'libgdx-spriter-extension'
 ext.packaging = 'jar'
@@ -87,12 +87,12 @@ uploadArchives {
                     artifactId = artifact
                     name 'HyperLap2D Spine extension for libGDX runtime'
                     description 'Spine Animation extension for HyperLap2D libgdx runtime'
-                    url 'https://github.com/qlang122/h2d-libgdx-spriter-extension'
+                    url 'https://github.com/qlang/h2d-libgdx-spriter-extension'
 
                     scm {
-                        url 'scm:git@github.com:qlang122/h2d-libgdx-spriter-extension.git'
-                        connection 'scm:git@github.com:qlang122/h2d-libgdx-spriter-extension.git'
-                        developerConnection 'scm:git@github.com:qlang122/h2d-libgdx-spriter-extension.git'
+                        url 'scm:git@github.com:qlang/h2d-libgdx-spriter-extension.git'
+                        connection 'scm:git@github.com:qlang/h2d-libgdx-spriter-extension.git'
+                        developerConnection 'scm:git@github.com:qlang/h2d-libgdx-spriter-extension.git'
                     }
 
                     licenses {

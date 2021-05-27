@@ -20,8 +20,11 @@ package com.qlang.h2d.extention.spriter;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 import games.rednblack.editor.renderer.box2dLight.RayHandler;
 import games.rednblack.editor.renderer.components.DimensionsComponent;
@@ -31,6 +34,9 @@ import games.rednblack.editor.renderer.factory.EntityFactory;
 import games.rednblack.editor.renderer.factory.component.ComponentFactory;
 import games.rednblack.editor.renderer.resources.IResourceRetriever;
 import games.rednblack.editor.renderer.utils.ComponentRetriever;
+import me.winter.gdx.animation.Animation;
+import me.winter.gdx.animation.scml.SCMLLoader;
+import me.winter.gdx.animation.scml.SCMLProject;
 
 /**
  * @author Created by qlang on 5/27/2021.
@@ -56,7 +62,7 @@ public class SpriterComponentFactory extends ComponentFactory {
     protected DimensionsComponent createDimensionsComponent(Entity entity, MainItemVO vo) {
         DimensionsComponent component = new DimensionsComponent();
 
-        SpriterObjectComponent spriterComponent = ComponentRetriever.get(entity, SpriterObjectComponent.class);
+//        SpriterObjectComponent spriterComponent = ComponentRetriever.get(entity, SpriterObjectComponent.class);
 
 //        Rectangle rect = spriterComponent.player.getBoundingRectangle(null);
 //        component.width = (int) rect.size.width;
@@ -68,30 +74,30 @@ public class SpriterComponentFactory extends ComponentFactory {
 
     protected SpriterObjectComponent createSpriterDataComponent(Entity entity, SpriterVO vo) {
         SpriterObjectComponent component = new SpriterObjectComponent();
-        component.entity = vo.entity;
-        component.animation = vo.animation;
         component.animationName = vo.animationName;
         component.scale = vo.scale;
+        component.currentAnimationIndex = vo.animation;
+        component.currentEntityIndex = vo.entity;
 
-        FileHandle handle = rm.getSCMLFile(vo.animationName);
-//        component.data = new SCMLReader(handle.read()).getData();
-//        LibGdxLoader loader = new LibGdxLoader(component.data);
-//        loader.load(handle.file());
-//
-//        component.currentAnimationIndex = vo.animation;
-//        component.currentEntityIndex = vo.entity;
-//
-//        component.player = new Player(component.data.getEntity(component.currentEntityIndex));
-//
-//        component.player.setAnimation(component.currentAnimationIndex);
-//        component.player.setScale(component.scale);
-//
-//        SpriterDrawerComponent spriterDrawer = new SpriterDrawerComponent();
-//
-//        spriterDrawer.drawer = new LibGdxDrawer(loader, null);
-//
-//        entity.add(component);
-//        entity.add(spriterDrawer);
+        FileHandle scmlFile = rm.getSpriterSCML(vo.animationName);
+        TextureAtlas atlas = rm.getSpriterAtlas(vo.animationName);
+        SCMLLoader loader = new SCMLLoader(new InternalFileHandleResolver());
+        SCMLProject scmlProject = loader.load(atlas, scmlFile);
+
+        component.entity = scmlProject.getEntity(0);
+        if (component.entity != null) {
+            component.animation = component.entity.getAnimation(0);
+            Array<Animation> array = component.entity.getAnimations();
+            for (Animation animation : array) {
+                component.animations.add(animation);
+            }
+        }
+        Array<me.winter.gdx.animation.Entity> array = scmlProject.getSourceEntities();
+        for (me.winter.gdx.animation.Entity entity1 : array.iterator()) {
+            component.entities.add(entity1);
+        }
+
+        entity.add(component);
 
         return component;
     }

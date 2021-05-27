@@ -3,20 +3,21 @@ package com.qlang.h2d.extention.spriter;
 import java.util.ArrayList;
 
 import games.rednblack.editor.renderer.components.BaseComponent;
+import me.winter.gdx.animation.Animation;
+import me.winter.gdx.animation.Entity;
 
 /**
  * @author Created by qlang on 5/27/2021.
  */
 public class SpriterObjectComponent implements BaseComponent {
-    //    public Player player;
-//    public Data data;
-    public ArrayList<String> animations = new ArrayList<String>();
-    public ArrayList<String> entities = new ArrayList<String>();
+    public Entity entity;
+    public Animation animation;
+
+    public ArrayList<Animation> animations = new ArrayList<>();
+    public ArrayList<Entity> entities = new ArrayList<>();
+
     public int currentEntityIndex = 0;
     public int currentAnimationIndex;
-
-    public int entity;
-    public int animation;
     public String animationName = "";
     public float scale = 1f;
 

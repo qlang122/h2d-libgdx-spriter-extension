@@ -12,14 +12,11 @@ import games.rednblack.editor.renderer.factory.component.ComponentFactory;
 import games.rednblack.editor.renderer.resources.IResourceRetriever;
 import games.rednblack.editor.renderer.systems.render.logic.Drawable;
 import games.rednblack.editor.renderer.utils.ComponentRetriever;
-import games.rednblack.editor.renderer.utils.Version;
 
 /**
  * @author Created by qlang on 5/27/2021.
  */
 public class SpriterItemType implements IExternalItemType {
-
-    public static final Version SUPPORTED_SPINE_VERSION = new Version("3.8");
 
     private ComponentFactory factory;
     private IteratingSystem system;
