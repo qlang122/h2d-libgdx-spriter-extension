@@ -1,4 +1,4 @@
-package com.qlang122.h2d.extention.spriter;
+package com.qlang.h2d.extention.spriter;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
@@ -7,6 +7,9 @@ import com.badlogic.ashley.systems.IteratingSystem;
 
 import games.rednblack.editor.renderer.components.SpineDataComponent;
 
+/**
+ * @author Created by qlang on 5/27/2021.
+ */
 public class SpriterSystem extends IteratingSystem {
 
     private ComponentMapper<SpriterObjectComponent> spineObjectComponentMapper = ComponentMapper.getFor(SpriterObjectComponent.class);

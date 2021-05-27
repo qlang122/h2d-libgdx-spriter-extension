@@ -16,7 +16,7 @@
  *  *****************************************************************************
  */
 
-package com.qlang122.h2d.extention.spriter;
+package com.qlang.h2d.extention.spriter;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
@@ -33,7 +33,7 @@ import games.rednblack.editor.renderer.resources.IResourceRetriever;
 import games.rednblack.editor.renderer.utils.ComponentRetriever;
 
 /**
- * Created by azakhary on 5/22/2015.
+ * @author Created by qlang on 5/27/2021.
  */
 public class SpriterComponentFactory extends ComponentFactory {
     public SpriterComponentFactory() {

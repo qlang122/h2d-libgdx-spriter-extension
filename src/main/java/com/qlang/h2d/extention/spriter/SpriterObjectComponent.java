@@ -1,11 +1,14 @@
-package com.qlang122.h2d.extention.spriter;
+package com.qlang.h2d.extention.spriter;
 
 import java.util.ArrayList;
 
 import games.rednblack.editor.renderer.components.BaseComponent;
 
+/**
+ * @author Created by qlang on 5/27/2021.
+ */
 public class SpriterObjectComponent implements BaseComponent {
-//    public Player player;
+    //    public Player player;
 //    public Data data;
     public ArrayList<String> animations = new ArrayList<String>();
     public ArrayList<String> entities = new ArrayList<String>();

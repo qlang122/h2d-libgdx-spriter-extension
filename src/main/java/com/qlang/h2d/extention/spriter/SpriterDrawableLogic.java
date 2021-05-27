@@ -1,4 +1,4 @@
-package com.qlang122.h2d.extention.spriter;
+package com.qlang.h2d.extention.spriter;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import games.rednblack.editor.renderer.components.TransformComponent;
 import games.rednblack.editor.renderer.systems.render.logic.Drawable;
 
+/**
+ * @author Created by qlang on 5/27/2021.
+ */
 public class SpriterDrawableLogic implements Drawable {
 
     private ComponentMapper<SpriterDrawerComponent> spriterDrawerMapper;
