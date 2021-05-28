@@ -28,12 +28,12 @@ import com.badlogic.gdx.utils.Array;
 
 import games.rednblack.editor.renderer.box2dLight.RayHandler;
 import games.rednblack.editor.renderer.components.DimensionsComponent;
+import games.rednblack.editor.renderer.components.SpriterDataComponent;
 import games.rednblack.editor.renderer.data.MainItemVO;
 import games.rednblack.editor.renderer.data.SpriterVO;
 import games.rednblack.editor.renderer.factory.EntityFactory;
 import games.rednblack.editor.renderer.factory.component.ComponentFactory;
 import games.rednblack.editor.renderer.resources.IResourceRetriever;
-import games.rednblack.editor.renderer.utils.ComponentRetriever;
 import me.winter.gdx.animation.Animation;
 import me.winter.gdx.animation.scml.SCMLLoader;
 import me.winter.gdx.animation.scml.SCMLProject;
@@ -42,6 +42,8 @@ import me.winter.gdx.animation.scml.SCMLProject;
  * @author Created by qlang on 5/27/2021.
  */
 public class SpriterComponentFactory extends ComponentFactory {
+    private SpriterObjectComponent spriterObjectComponent;
+
     public SpriterComponentFactory() {
         super();
     }
@@ -52,41 +54,38 @@ public class SpriterComponentFactory extends ComponentFactory {
 
     @Override
     public void createComponents(Entity root, Entity entity, MainItemVO vo) {
-        createSpriterDataComponent(entity, (SpriterVO) vo);
         createCommonComponents(entity, vo, EntityFactory.SPRITER_TYPE);
         createParentNodeComponent(root, entity);
         createNodeComponent(root, entity);
+        createPhysicsComponents(entity, vo);
+        createLightComponents(entity, vo);
+        spriterObjectComponent = createSpriterObjectComponent(entity, (SpriterVO) vo);
+        createSpriterDataComponent(root, (SpriterVO) vo);
     }
 
     @Override
     protected DimensionsComponent createDimensionsComponent(Entity entity, MainItemVO vo) {
         DimensionsComponent component = new DimensionsComponent();
 
-//        SpriterObjectComponent spriterComponent = ComponentRetriever.get(entity, SpriterObjectComponent.class);
-
-//        Rectangle rect = spriterComponent.player.getBoundingRectangle(null);
-//        component.width = (int) rect.size.width;
-//        component.height = (int) rect.size.height;
-
         entity.add(component);
         return component;
     }
 
-    protected SpriterObjectComponent createSpriterDataComponent(Entity entity, SpriterVO vo) {
+    protected SpriterObjectComponent createSpriterObjectComponent(Entity entity, SpriterVO vo) {
         SpriterObjectComponent component = new SpriterObjectComponent();
         component.animationName = vo.animationName;
-        component.scale = vo.scale;
-        component.currentAnimationIndex = vo.animation;
         component.currentEntityIndex = vo.entity;
+        component.currentAnimationName = vo.currentAnimationName;
 
         FileHandle scmlFile = rm.getSpriterSCML(vo.animationName);
         TextureAtlas atlas = rm.getSpriterAtlas(vo.animationName);
         SCMLLoader loader = new SCMLLoader(new InternalFileHandleResolver());
         SCMLProject scmlProject = loader.load(atlas, scmlFile);
 
-        component.entity = scmlProject.getEntity(0);
+        component.entity = scmlProject.getEntity(component.currentEntityIndex);
         if (component.entity != null) {
             component.animation = component.entity.getAnimation(0);
+            component.currentAnimationName = component.animation.getName();
             Array<Animation> array = component.entity.getAnimations();
             for (Animation animation : array) {
                 component.animations.add(animation);
@@ -96,6 +95,17 @@ public class SpriterComponentFactory extends ComponentFactory {
         for (me.winter.gdx.animation.Entity entity1 : array.iterator()) {
             component.entities.add(entity1);
         }
+
+        entity.add(component);
+
+        return component;
+    }
+
+    protected SpriterDataComponent createSpriterDataComponent(Entity entity, SpriterVO vo) {
+        SpriterDataComponent component = new SpriterDataComponent();
+        component.animationName = vo.animationName;
+
+        component.currentAnimationName = vo.currentAnimationName.isEmpty() ? spriterObjectComponent.animation.getName() : vo.currentAnimationName;
 
         entity.add(component);
 

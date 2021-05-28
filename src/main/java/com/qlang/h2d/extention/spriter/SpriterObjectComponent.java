@@ -10,6 +10,8 @@ import me.winter.gdx.animation.Entity;
  * @author Created by qlang on 5/27/2021.
  */
 public class SpriterObjectComponent implements BaseComponent {
+    public String animationName = "";
+
     public Entity entity;
     public Animation animation;
 
@@ -17,15 +19,25 @@ public class SpriterObjectComponent implements BaseComponent {
     public ArrayList<Entity> entities = new ArrayList<>();
 
     public int currentEntityIndex = 0;
-    public int currentAnimationIndex;
-    public String animationName = "";
-    public float scale = 1f;
+    public String currentAnimationName = "";
 
     @Override
     public void reset() {
         animationName = "";
-        scale = 1f;
         currentEntityIndex = 0;
-        currentAnimationIndex = 0;
+    }
+
+    public ArrayList<Animation> getAnimations() {
+        return animations;
+    }
+
+    public void setAnimation(String name) {
+        this.currentAnimationName = name;
+        for (Animation anim : animations) {
+            if (anim.getName().equals(name)) {
+                animation = anim;
+                break;
+            }
+        }
     }
 }
