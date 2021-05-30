@@ -25,14 +25,15 @@ public class SpriterDrawableLogic implements Drawable {
     public void draw(Batch batch, Entity entity, float parentAlpha, RenderingType renderingType) {
         TransformComponent transformComponent = transformMapper.get(entity);
         SpriterObjectComponent spriter = spriterMapper.get(entity);
-//        TintComponent tint = tintComponentMapper.get(entity);
+        TintComponent tint = tintComponentMapper.get(entity);
 
         Animation animation = spriter.animation;
 
         if (animation != null) {
-            animation.setPosition(transformComponent.x, transformComponent.y);
+            animation.setPosition(transformComponent.x + spriter.rectangle.y, transformComponent.y + spriter.rectangle.y);
             animation.setScale(transformComponent.scaleX, transformComponent.scaleY);
-            animation.setAngle(transformComponent.rotation - animation.getAngle());
+            animation.setAngle(transformComponent.rotation);
+            animation.tintSprite(tint.color);
             animation.update(0);
 
             animation.draw(batch);

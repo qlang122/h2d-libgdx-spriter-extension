@@ -23,17 +23,22 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 import games.rednblack.editor.renderer.box2dLight.RayHandler;
 import games.rednblack.editor.renderer.components.DimensionsComponent;
 import games.rednblack.editor.renderer.components.SpriterDataComponent;
+import games.rednblack.editor.renderer.components.TransformComponent;
 import games.rednblack.editor.renderer.data.MainItemVO;
+import games.rednblack.editor.renderer.data.ProjectInfoVO;
+import games.rednblack.editor.renderer.data.ResolutionEntryVO;
 import games.rednblack.editor.renderer.data.SpriterVO;
 import games.rednblack.editor.renderer.factory.EntityFactory;
 import games.rednblack.editor.renderer.factory.component.ComponentFactory;
 import games.rednblack.editor.renderer.resources.IResourceRetriever;
+import games.rednblack.editor.renderer.utils.ComponentRetriever;
 import me.winter.gdx.animation.Animation;
 import me.winter.gdx.animation.scml.SCMLLoader;
 import me.winter.gdx.animation.scml.SCMLProject;
@@ -54,18 +59,26 @@ public class SpriterComponentFactory extends ComponentFactory {
 
     @Override
     public void createComponents(Entity root, Entity entity, MainItemVO vo) {
+        createSpriterDataComponent(entity, (SpriterVO) vo);
+        spriterObjectComponent = createSpriterObjectComponent(entity, (SpriterVO) vo);
         createCommonComponents(entity, vo, EntityFactory.SPRITER_TYPE);
         createParentNodeComponent(root, entity);
         createNodeComponent(root, entity);
-        createPhysicsComponents(entity, vo);
-        createLightComponents(entity, vo);
-        spriterObjectComponent = createSpriterObjectComponent(entity, (SpriterVO) vo);
-        createSpriterDataComponent(root, (SpriterVO) vo);
     }
 
     @Override
     protected DimensionsComponent createDimensionsComponent(Entity entity, MainItemVO vo) {
         DimensionsComponent component = new DimensionsComponent();
+
+        SpriterObjectComponent spriterComponent = ComponentRetriever.get(entity, SpriterObjectComponent.class);
+
+        ResolutionEntryVO resolutionEntryVO = rm.getLoadedResolution();
+        ProjectInfoVO projectInfoVO = rm.getProjectVO();
+        float multiplier = resolutionEntryVO.getMultiplier(projectInfoVO.originalResolution);
+
+        Rectangle rect = spriterComponent.rectangle;
+        component.width = (int) rect.width * multiplier / projectInfoVO.pixelToWorld;
+        component.height = (int) rect.height * multiplier / projectInfoVO.pixelToWorld;
 
         entity.add(component);
         return component;
@@ -74,7 +87,7 @@ public class SpriterComponentFactory extends ComponentFactory {
     protected SpriterObjectComponent createSpriterObjectComponent(Entity entity, SpriterVO vo) {
         SpriterObjectComponent component = new SpriterObjectComponent();
         component.animationName = vo.animationName;
-        component.currentEntityIndex = vo.entity;
+        component.currentEntityIndex = vo.currentEntityIndex;
         component.currentAnimationName = vo.currentAnimationName;
 
         FileHandle scmlFile = rm.getSpriterSCML(vo.animationName);
@@ -86,6 +99,8 @@ public class SpriterComponentFactory extends ComponentFactory {
         if (component.entity != null) {
             component.animation = component.entity.getAnimation(0);
             component.currentAnimationName = component.animation.getName();
+            component.rectangle.set(component.animation.getBoundingRectangle(null));
+
             Array<Animation> array = component.entity.getAnimations();
             for (Animation animation : array) {
                 component.animations.add(animation);
@@ -97,18 +112,17 @@ public class SpriterComponentFactory extends ComponentFactory {
         }
 
         entity.add(component);
-
         return component;
     }
 
     protected SpriterDataComponent createSpriterDataComponent(Entity entity, SpriterVO vo) {
         SpriterDataComponent component = new SpriterDataComponent();
         component.animationName = vo.animationName;
-
+        component.currentEntityIndex = vo.currentEntityIndex;
         component.currentAnimationName = vo.currentAnimationName.isEmpty() ? spriterObjectComponent.animation.getName() : vo.currentAnimationName;
 
         entity.add(component);
-
         return component;
     }
+
 }

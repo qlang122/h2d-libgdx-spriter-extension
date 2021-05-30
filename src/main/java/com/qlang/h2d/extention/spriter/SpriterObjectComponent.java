@@ -1,5 +1,7 @@
 package com.qlang.h2d.extention.spriter;
 
+import com.badlogic.gdx.math.Rectangle;
+
 import java.util.ArrayList;
 
 import games.rednblack.editor.renderer.components.BaseComponent;
@@ -15,6 +17,8 @@ public class SpriterObjectComponent implements BaseComponent {
     public Entity entity;
     public Animation animation;
 
+    public Rectangle rectangle = new Rectangle();
+
     public ArrayList<Animation> animations = new ArrayList<>();
     public ArrayList<Entity> entities = new ArrayList<>();
 
@@ -24,7 +28,13 @@ public class SpriterObjectComponent implements BaseComponent {
     @Override
     public void reset() {
         animationName = "";
+        entity = null;
+        animation = null;
         currentEntityIndex = 0;
+        currentAnimationName = "";
+        rectangle.set(0, 0, 0, 0);
+        animations.clear();
+        entities.clear();
     }
 
     public ArrayList<Animation> getAnimations() {
