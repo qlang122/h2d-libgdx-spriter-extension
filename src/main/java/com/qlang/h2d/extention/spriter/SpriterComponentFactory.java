@@ -59,8 +59,8 @@ public class SpriterComponentFactory extends ComponentFactory {
 
     @Override
     public void createComponents(Entity root, Entity entity, MainItemVO vo) {
-        createSpriterDataComponent(entity, (SpriterVO) vo);
         spriterObjectComponent = createSpriterObjectComponent(entity, (SpriterVO) vo);
+        createSpriterDataComponent(entity, (SpriterVO) vo);
         createCommonComponents(entity, vo, EntityFactory.SPRITER_TYPE);
         createParentNodeComponent(root, entity);
         createNodeComponent(root, entity);
