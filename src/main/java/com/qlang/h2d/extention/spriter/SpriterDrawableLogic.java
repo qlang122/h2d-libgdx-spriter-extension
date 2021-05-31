@@ -33,12 +33,12 @@ public class SpriterDrawableLogic implements Drawable {
         Animation animation = spriter.animation;
 
         if (animation != null) {
-            animation.setPosition(transform.x /*+ (dimen.width * transform.scaleX / 2) - spriter.rectangle.x * transform.scaleX*/,
-                    transform.y /*+ (dimen.height * transform.scaleY / 2) - spriter.rectangle.y * transform.scaleY*/);
+            //make the source center to the current control rect center
+            animation.setPosition(transform.x + (dimen.width * transform.scaleX / 2),/*- spriter.rectangle.x * transform.scaleX*/
+                    transform.y + (dimen.height * transform.scaleY / 2));/*- spriter.rectangle.y * transform.scaleY*/
             animation.setScale(transform.scaleX, transform.scaleY);
             animation.setAngle(transform.rotation);
             animation.tintSprite(tint.color);
-            animation.update(0);
 
             animation.draw(batch);
         }
