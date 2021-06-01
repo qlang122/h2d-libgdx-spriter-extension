@@ -100,6 +100,7 @@ public class SpriterComponentFactory extends ComponentFactory {
             component.animation = component.entity.getAnimation(0);
             component.currentAnimationName = component.animation.getName();
             component.rectangle.set(component.animation.getBoundingRectangle(null));
+            component.animation.update(0);
 
             Array<Animation> array = component.entity.getAnimations();
             for (Animation animation : array) {
@@ -118,6 +119,7 @@ public class SpriterComponentFactory extends ComponentFactory {
     protected SpriterDataComponent createSpriterDataComponent(Entity entity, SpriterVO vo) {
         SpriterDataComponent component = new SpriterDataComponent();
         component.animationName = vo.animationName;
+        component.isLooping = vo.isLooping;
         component.currentEntityIndex = vo.currentEntityIndex;
         component.currentAnimationName = vo.currentAnimationName.isEmpty() ? spriterObjectComponent.animation.getName() : vo.currentAnimationName;
 
