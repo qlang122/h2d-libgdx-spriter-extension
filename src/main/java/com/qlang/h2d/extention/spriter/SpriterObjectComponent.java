@@ -29,7 +29,6 @@ public class SpriterObjectComponent implements BaseComponent {
     public ArrayList<Animation> animations = new ArrayList<>();
     public ArrayList<Entity> entities = new ArrayList<>();
 
-    private boolean isPlaying = false;
     public int currentEntityIndex = 0;
     public String currentAnimationName = "";
 
@@ -38,7 +37,6 @@ public class SpriterObjectComponent implements BaseComponent {
         animationName = "";
         entity = null;
         animation = null;
-        isPlaying = false;
         currentEntityIndex = 0;
         currentAnimationName = "";
         rectangle.set(0, 0, 0, 0);
@@ -74,39 +72,47 @@ public class SpriterObjectComponent implements BaseComponent {
     }
 
     public void play() {
-        isPlaying = true;
+        if (animation != null) {
+            animation.startPlay();
+        }
     }
 
     public void pause() {
-        isPlaying = false;
+        if (animation != null) {
+            animation.pausePlay();
+        }
     }
 
     private void goToPrevFrame() {
         if (animation != null) {
+            animation.pausePlay();
             animation.prevKey();
         }
     }
 
     private void goToNextFrame() {
         if (animation != null) {
+            animation.pausePlay();
             animation.nextKey();
         }
     }
 
     private void goToFirstFrame() {
         if (animation != null) {
-            animation.reset();
+            animation.pausePlay();
+            animation.first();
         }
     }
 
     private void goToLastFrame() {
         if (animation != null) {
-            animation.update(animation.getLength());
+            animation.pausePlay();
+            animation.last();
         }
     }
 
     public boolean isPlaying() {
-        return isPlaying;
+        return animation != null && animation.isPlaying();
     }
 
     public boolean isLooping() {

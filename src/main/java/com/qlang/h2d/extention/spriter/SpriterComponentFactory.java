@@ -30,7 +30,6 @@ import com.badlogic.gdx.utils.Array;
 import games.rednblack.editor.renderer.box2dLight.RayHandler;
 import games.rednblack.editor.renderer.components.DimensionsComponent;
 import games.rednblack.editor.renderer.components.SpriterDataComponent;
-import games.rednblack.editor.renderer.components.TransformComponent;
 import games.rednblack.editor.renderer.data.MainItemVO;
 import games.rednblack.editor.renderer.data.ProjectInfoVO;
 import games.rednblack.editor.renderer.data.ResolutionEntryVO;
@@ -47,7 +46,7 @@ import me.winter.gdx.animation.scml.SCMLProject;
  * @author Created by qlang on 5/27/2021.
  */
 public class SpriterComponentFactory extends ComponentFactory {
-    private SpriterObjectComponent spriterObjectComponent;
+    private SpriterObjectComponent objectComponent;
 
     public SpriterComponentFactory() {
         super();
@@ -59,7 +58,7 @@ public class SpriterComponentFactory extends ComponentFactory {
 
     @Override
     public void createComponents(Entity root, Entity entity, MainItemVO vo) {
-        spriterObjectComponent = createSpriterObjectComponent(entity, (SpriterVO) vo);
+        objectComponent = createSpriterObjectComponent(entity, (SpriterVO) vo);
         createSpriterDataComponent(entity, (SpriterVO) vo);
         createCommonComponents(entity, vo, EntityFactory.SPRITER_TYPE);
         createParentNodeComponent(root, entity);
@@ -100,7 +99,7 @@ public class SpriterComponentFactory extends ComponentFactory {
             component.animation = component.entity.getAnimation(0);
             component.currentAnimationName = component.animation.getName();
             component.rectangle.set(component.animation.getBoundingRectangle(null));
-            component.animation.update(0);
+            component.animation.update(100);
 
             Array<Animation> array = component.entity.getAnimations();
             for (Animation animation : array) {
@@ -121,7 +120,7 @@ public class SpriterComponentFactory extends ComponentFactory {
         component.animationName = vo.animationName;
         component.isLooping = vo.isLooping;
         component.currentEntityIndex = vo.currentEntityIndex;
-        component.currentAnimationName = vo.currentAnimationName.isEmpty() ? spriterObjectComponent.animation.getName() : vo.currentAnimationName;
+        component.currentAnimationName = vo.currentAnimationName.isEmpty() ? objectComponent.animation.getName() : vo.currentAnimationName;
 
         entity.add(component);
         return component;

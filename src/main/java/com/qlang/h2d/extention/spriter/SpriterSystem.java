@@ -21,6 +21,6 @@ public class SpriterSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         SpriterObjectComponent component = spineObjectComponentMapper.get(entity);
-        if (component.isPlaying()) component.animation.update(deltaTime * 1000);
+        component.animation.update(deltaTime * 1000);
     }
 }
