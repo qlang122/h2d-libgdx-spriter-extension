@@ -96,14 +96,17 @@ public class SpriterComponentFactory extends ComponentFactory {
 
         component.entity = scmlProject.getEntity(component.currentEntityIndex);
         if (component.entity != null) {
-            component.animation = component.entity.getAnimation(0);
+            Animation animation = component.currentAnimationName.isEmpty()
+                    ? component.entity.getAnimation(0)
+                    : component.entity.getAnimation(component.currentAnimationName);
+            if (animation == null) animation = component.entity.getAnimation(0);
+            component.animation = animation;
             component.currentAnimationName = component.animation.getName();
             component.rectangle.set(component.animation.getBoundingRectangle(null));
-            component.animation.update(100);
 
             Array<Animation> array = component.entity.getAnimations();
-            for (Animation animation : array) {
-                component.animations.add(animation);
+            for (Animation anim : array) {
+                component.animations.add(anim);
             }
         }
         Array<me.winter.gdx.animation.Entity> array = scmlProject.getSourceEntities();

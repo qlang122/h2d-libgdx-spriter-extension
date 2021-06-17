@@ -48,8 +48,8 @@ public class SpriterObjectComponent implements BaseComponent {
         return animations;
     }
 
-    public void doActions(String animationName) {
-        switch (animationName) {
+    public void doActions(String action) {
+        switch (action) {
             case ACTION_PLAY_CLICKED:
                 play();
                 break;
