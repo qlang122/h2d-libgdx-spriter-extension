@@ -38,7 +38,7 @@ public class SpriterDrawableLogic implements Drawable {
                     transform.y + (dimen.height * transform.scaleY / 2));/*- spriter.rectangle.y * transform.scaleY*/
             animation.setScale(transform.scaleX, transform.scaleY);
             animation.setAngle(transform.rotation);
-            animation.tintSprite(tint.color);
+//            animation.tintSprite(tint.color);
 
             animation.draw(batch);
         }
