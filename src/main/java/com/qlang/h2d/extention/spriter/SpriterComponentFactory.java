@@ -90,9 +90,15 @@ public class SpriterComponentFactory extends ComponentFactory {
         component.currentAnimationName = vo.currentAnimationName;
 
         FileHandle scmlFile = rm.getSpriterSCML(vo.animationName);
+        Array<FileHandle> extraScmlFile = rm.getSpriterExtraSCML(vo.animationName);
         TextureAtlas atlas = rm.getSpriterAtlas(vo.animationName);
+
         SCMLLoader loader = new SCMLLoader(new InternalFileHandleResolver());
         SCMLProject scmlProject = loader.load(atlas, scmlFile);
+        Array<SCMLProject> extras = new Array<>();
+        for (FileHandle handle : extraScmlFile) {
+            extras.add(loader.load(atlas, handle));
+        }
 
         component.entity = scmlProject.getEntity(component.currentEntityIndex);
         if (component.entity != null) {
@@ -107,6 +113,12 @@ public class SpriterComponentFactory extends ComponentFactory {
             Array<Animation> array = component.entity.getAnimations();
             for (Animation anim : array) {
                 component.animations.add(anim);
+            }
+            for (SCMLProject project : extras) {
+                Array<me.winter.gdx.animation.Entity> entities = project.getSourceEntities();
+                for (Animation anim : entities.get(0).getAnimations()) {
+                    component.animations.add(anim);
+                }
             }
         }
         Array<me.winter.gdx.animation.Entity> array = scmlProject.getSourceEntities();
