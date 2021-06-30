@@ -124,6 +124,7 @@ public class SpriterObjectComponent implements BaseComponent {
     }
 
     public void setAnimation(String name) {
+        if (currentAnimationName.equals(name)) return;
         this.currentAnimationName = name;
         for (Animation anim : animations) {
             if (anim.getName().equals(name)) {
