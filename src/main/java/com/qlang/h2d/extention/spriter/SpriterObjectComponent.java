@@ -32,6 +32,8 @@ public class SpriterObjectComponent implements BaseComponent {
     public int currentEntityIndex = 0;
     public String currentAnimationName = "";
 
+    public boolean tintEnable = true;
+
     @Override
     public void reset() {
         animationName = "";
@@ -39,6 +41,7 @@ public class SpriterObjectComponent implements BaseComponent {
         animation = null;
         currentEntityIndex = 0;
         currentAnimationName = "";
+        tintEnable = true;
         rectangle.set(0, 0, 0, 0);
         animations.clear();
         entities.clear();

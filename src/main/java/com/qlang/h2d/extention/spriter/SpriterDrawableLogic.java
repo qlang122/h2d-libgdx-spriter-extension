@@ -27,7 +27,7 @@ public class SpriterDrawableLogic implements Drawable {
     public void draw(Batch batch, Entity entity, float parentAlpha, RenderingType renderingType) {
         TransformComponent transform = transformMapper.get(entity);
         SpriterObjectComponent spriter = spriterMapper.get(entity);
-//        TintComponent tint = tintComponentMapper.get(entity);
+        TintComponent tint = tintComponentMapper.get(entity);
         DimensionsComponent dimen = dimensionsComponentMapper.get(entity);
 
         Animation animation = spriter.animation;
@@ -42,7 +42,10 @@ public class SpriterDrawableLogic implements Drawable {
 
             animation.setScale(scaleX, scaleY);
             animation.setAngle(transform.rotation);
-//            animation.tintSprite(tint.color);
+            if (spriter.tintEnable) {
+                tint.color.a *= parentAlpha;
+                animation.tintSprite(tint.color);
+            }
 
             animation.draw(batch);
         }
