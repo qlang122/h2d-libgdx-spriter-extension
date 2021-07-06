@@ -30,6 +30,7 @@ import com.badlogic.gdx.utils.Array;
 import games.rednblack.editor.renderer.box2dLight.RayHandler;
 import games.rednblack.editor.renderer.components.DimensionsComponent;
 import games.rednblack.editor.renderer.components.SpriterDataComponent;
+import games.rednblack.editor.renderer.components.TransformComponent;
 import games.rednblack.editor.renderer.data.MainItemVO;
 import games.rednblack.editor.renderer.data.ProjectInfoVO;
 import games.rednblack.editor.renderer.data.ResolutionEntryVO;
@@ -128,6 +129,20 @@ public class SpriterComponentFactory extends ComponentFactory {
 
         entity.add(component);
         return component;
+    }
+
+    @Override
+    protected TransformComponent createTransformComponent(Entity entity, MainItemVO vo, DimensionsComponent dimensionsComponent) {
+        TransformComponent transform = super.createTransformComponent(entity, vo, dimensionsComponent);
+
+        SpriterObjectComponent spriterComponent = ComponentRetriever.get(entity, SpriterObjectComponent.class);
+        for (Animation animation : spriterComponent.animations) {
+            animation.setPosition(transform.x + (dimensionsComponent.width * transform.scaleX / 2),
+                    transform.y + (dimensionsComponent.height * transform.scaleY / 2));
+            animation.setScale(transform.scaleX * (transform.flipX ? -1 : 1), transform.scaleY * (transform.flipY ? -1 : 1));
+            animation.setAngle(transform.rotation);
+        }
+        return transform;
     }
 
     protected SpriterDataComponent createSpriterDataComponent(Entity entity, SpriterVO vo) {

@@ -5,6 +5,9 @@ import com.badlogic.gdx.math.Rectangle;
 import java.util.ArrayList;
 
 import games.rednblack.editor.renderer.components.BaseComponent;
+import games.rednblack.editor.renderer.components.DimensionsComponent;
+import games.rednblack.editor.renderer.components.TransformComponent;
+import games.rednblack.editor.renderer.utils.ComponentRetriever;
 import me.winter.gdx.animation.Animation;
 import me.winter.gdx.animation.Entity;
 
@@ -126,7 +129,7 @@ public class SpriterObjectComponent implements BaseComponent {
         if (animation != null) animation.setLooping(value);
     }
 
-    public void setAnimation(String name) {
+    public void setAnimation(com.badlogic.ashley.core.Entity entity, String name) {
         if (currentAnimationName.equals(name)) return;
         this.currentAnimationName = name;
         for (Animation anim : animations) {
@@ -134,6 +137,17 @@ public class SpriterObjectComponent implements BaseComponent {
                 animation = anim;
                 break;
             }
+        }
+        if (entity != null && animation != null) {
+            TransformComponent transform = ComponentRetriever.get(entity, TransformComponent.class);
+            DimensionsComponent dimen = ComponentRetriever.get(entity, DimensionsComponent.class);
+            animation.setPosition(transform.x + (dimen.width * transform.scaleX / 2),
+                    transform.y + (dimen.height * transform.scaleY / 2));
+
+            float scaleX = transform.scaleX * (transform.flipX ? -1 : 1);
+            float scaleY = transform.scaleY * (transform.flipY ? -1 : 1);
+            animation.setScale(scaleX, scaleY);
+            animation.setAngle(transform.rotation);
         }
     }
 }
