@@ -34,8 +34,7 @@ public class SpriterDrawableLogic implements Drawable {
 
         if (animation != null) {
             //make the source center to the current control rect center
-            animation.setPosition(transform.x + (dimen.width * transform.scaleX / 2),/*- spriter.rectangle.x * transform.scaleX*/
-                    transform.y + (dimen.height * transform.scaleY / 2));/*- spriter.rectangle.y * transform.scaleY*/
+            animation.setPosition(transform.x + (dimen.width / 2), transform.y + (dimen.height / 2));
 
             float scaleX = transform.scaleX * (transform.flipX ? -1 : 1);
             float scaleY = transform.scaleY * (transform.flipY ? -1 : 1);

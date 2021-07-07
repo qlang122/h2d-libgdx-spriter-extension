@@ -133,16 +133,30 @@ public class SpriterComponentFactory extends ComponentFactory {
 
     @Override
     protected TransformComponent createTransformComponent(Entity entity, MainItemVO vo, DimensionsComponent dimensionsComponent) {
-        TransformComponent transform = super.createTransformComponent(entity, vo, dimensionsComponent);
+        TransformComponent component = engine.createComponent(TransformComponent.class);
+        component.rotation = vo.rotation;
+        component.scaleX = vo.scaleX;
+        component.scaleY = vo.scaleY;
+        component.x = vo.x;
+        component.y = vo.y;
+        component.isXYScaleLinked = vo.scaleXYLink;
+
+        component.originX = dimensionsComponent.width / 2f;
+        component.originY = dimensionsComponent.height / 2f;
+
+        component.flipX = vo.flipX;
+        component.flipY = vo.flipY;
+
+        entity.add(component);
 
         SpriterObjectComponent spriterComponent = ComponentRetriever.get(entity, SpriterObjectComponent.class);
         for (Animation animation : spriterComponent.animations) {
-            animation.setPosition(transform.x + (dimensionsComponent.width * transform.scaleX / 2),
-                    transform.y + (dimensionsComponent.height * transform.scaleY / 2));
-            animation.setScale(transform.scaleX * (transform.flipX ? -1 : 1), transform.scaleY * (transform.flipY ? -1 : 1));
-            animation.setAngle(transform.rotation);
+            animation.setPosition(component.x + (dimensionsComponent.width / 2),
+                    component.y + (dimensionsComponent.height / 2));
+            animation.setScale(component.scaleX * (component.flipX ? -1 : 1), component.scaleY * (component.flipY ? -1 : 1));
+            animation.setAngle(component.rotation);
         }
-        return transform;
+        return component;
     }
 
     protected SpriterDataComponent createSpriterDataComponent(Entity entity, SpriterVO vo) {

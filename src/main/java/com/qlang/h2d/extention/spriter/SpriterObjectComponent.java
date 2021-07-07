@@ -141,8 +141,7 @@ public class SpriterObjectComponent implements BaseComponent {
         if (entity != null && animation != null) {
             TransformComponent transform = ComponentRetriever.get(entity, TransformComponent.class);
             DimensionsComponent dimen = ComponentRetriever.get(entity, DimensionsComponent.class);
-            animation.setPosition(transform.x + (dimen.width * transform.scaleX / 2),
-                    transform.y + (dimen.height * transform.scaleY / 2));
+            animation.setPosition(transform.x + (dimen.width / 2), transform.y + (dimen.height / 2));
 
             float scaleX = transform.scaleX * (transform.flipX ? -1 : 1);
             float scaleY = transform.scaleY * (transform.flipY ? -1 : 1);
