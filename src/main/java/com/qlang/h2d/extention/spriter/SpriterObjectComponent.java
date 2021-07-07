@@ -132,12 +132,15 @@ public class SpriterObjectComponent implements BaseComponent {
     public void setAnimation(com.badlogic.ashley.core.Entity entity, String name) {
         if (currentAnimationName.equals(name)) return;
         this.currentAnimationName = name;
+        Animation old = animation;
         for (Animation anim : animations) {
             if (anim.getName().equals(name)) {
                 animation = anim;
                 break;
             }
         }
+        old.setVisible(false);
+
         if (entity != null && animation != null) {
             TransformComponent transform = ComponentRetriever.get(entity, TransformComponent.class);
             DimensionsComponent dimen = ComponentRetriever.get(entity, DimensionsComponent.class);
