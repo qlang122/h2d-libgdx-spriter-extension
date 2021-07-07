@@ -35,7 +35,7 @@ public class SpriterObjectComponent implements BaseComponent {
     public int currentEntityIndex = 0;
     public String currentAnimationName = "";
 
-    public boolean tintEnable = true;
+    public boolean isTintEnable = true;
 
     @Override
     public void reset() {
@@ -44,7 +44,7 @@ public class SpriterObjectComponent implements BaseComponent {
         animation = null;
         currentEntityIndex = 0;
         currentAnimationName = "";
-        tintEnable = true;
+        isTintEnable = true;
         rectangle.set(0, 0, 0, 0);
         animations.clear();
         entities.clear();

@@ -41,7 +41,7 @@ public class SpriterDrawableLogic implements Drawable {
 
             animation.setScale(scaleX, scaleY);
             animation.setAngle(transform.rotation);
-            if (spriter.tintEnable) {
+            if (spriter.isTintEnable) {
                 tint.color.a *= parentAlpha;
                 animation.tintSprite(tint.color);
             }
