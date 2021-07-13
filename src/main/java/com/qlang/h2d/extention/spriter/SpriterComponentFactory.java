@@ -137,7 +137,6 @@ public class SpriterComponentFactory extends ComponentFactory {
         component.rotation = vo.rotation;
         component.scaleX = vo.scaleX;
         component.scaleY = vo.scaleY;
-        System.out.println("--0-->>" + vo.x + " " + vo.y);
         component.x = vo.x;
         component.y = vo.y;
         component.isXYScaleLinked = vo.scaleXYLink;
