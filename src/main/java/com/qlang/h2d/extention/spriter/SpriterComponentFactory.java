@@ -29,7 +29,9 @@ import com.badlogic.gdx.utils.Array;
 
 import games.rednblack.editor.renderer.box2dLight.RayHandler;
 import games.rednblack.editor.renderer.components.DimensionsComponent;
+import games.rednblack.editor.renderer.components.PolygonComponent;
 import games.rednblack.editor.renderer.components.SpriterDataComponent;
+import games.rednblack.editor.renderer.components.TextureRegionComponent;
 import games.rednblack.editor.renderer.components.TransformComponent;
 import games.rednblack.editor.renderer.data.MainItemVO;
 import games.rednblack.editor.renderer.data.ProjectInfoVO;
@@ -64,6 +66,7 @@ public class SpriterComponentFactory extends ComponentFactory {
         createCommonComponents(entity, vo, EntityFactory.SPRITER_TYPE);
         createParentNodeComponent(root, entity);
         createNodeComponent(root, entity);
+        updatePolygons(entity);
     }
 
     @Override
@@ -170,4 +173,12 @@ public class SpriterComponentFactory extends ComponentFactory {
         return component;
     }
 
+    private void updatePolygons(Entity entity) {
+        DimensionsComponent dimensionsComponent = ComponentRetriever.get(entity, DimensionsComponent.class);
+
+        PolygonComponent polygonComponent = ComponentRetriever.get(entity, PolygonComponent.class);
+        if (polygonComponent != null && polygonComponent.vertices != null) {
+            dimensionsComponent.setPolygon(polygonComponent);
+        }
+    }
 }
