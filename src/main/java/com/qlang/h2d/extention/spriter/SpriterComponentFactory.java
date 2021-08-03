@@ -66,7 +66,7 @@ public class SpriterComponentFactory extends ComponentFactory {
         createCommonComponents(entity, vo, EntityFactory.SPRITER_TYPE);
         createParentNodeComponent(root, entity);
         createNodeComponent(root, entity);
-        updatePolygons(entity);
+//        updatePolygons(entity);
     }
 
     @Override
